@@ -1,0 +1,25 @@
+{
+  "name": "inscripcion-talleres-practicaservidor-1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcosmartinez25-debug/inscripcion-talleres-PracticaServidor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/marcosmartinez25-debug/inscripcion-talleres-PracticaServidor/issues"
+  },
+  "homepage": "https://github.com/marcosmartinez25-debug/inscripcion-talleres-PracticaServidor#readme",
+  "dependencies": {
+    "ejs": "^7.0.1",
+    "express": "^5.3.0"
+  }
+}
