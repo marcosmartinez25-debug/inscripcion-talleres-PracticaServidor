@@ -18,4 +18,39 @@ const talleres = [
   { id: 2, titulo: 'Desarrollo de Aplicaciones Web', categoria: 'web', plazas: 15, nivel: 'avanzado' },
   { id: 3, titulo: 'Diseño responsive con HTML5 y CSS3', categoria: 'web', plazas: 15, nivel: 'medio' }
 ];
+
+// array para almacenar las inscripciones.
+app.get('/', (req, res) => {
+  res.redirect('/talleres');
+});
  
+// Listado con todos los filtros y las plazas restantes de cada taller.
+app.get('/talleres', (req, res) => {
+
+  let lista = talleres.map(t => ({
+    id: t.id,
+    titulo: t.titulo,
+    categoria: t.categoria,
+    nivel: t.nivel,
+    plazas: t.plazas,
+    plazasRestantes: obtenerPlazasRestantes(t, inscripciones)
+  }));
+ 
+  // al venir de una URL los parametros lo tratamos como si no fueran fiables.
+  const categoria = typeof req.query.categoria === 'string' ? req.query.categoria.trim().toLowerCase() : '';
+  const nivel = typeof req.query.nivel === 'string' ? req.query.nivel.trim().toLowerCase() : '';
+  const disponibles = typeof req.query.disponibles === 'string' ? req.query.disponibles.trim().toLowerCase() : '';
+ 
+  // filtramos la lista de talleres según los parametros recibidos.
+  if (categoria !== '') {
+    lista = lista.filter(t => t.categoria === categoria);
+  }
+  if (nivel !== '') {
+    lista = lista.filter(t => t.nivel === nivel);
+  }
+  if (disponibles === 'true') {
+    lista = lista.filter(t => t.plazasRestantes > 0);
+  }
+ 
+  res.render('talleres', { talleres: lista, filtros: { categoria, nivel, disponibles } });
+});
