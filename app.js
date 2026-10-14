@@ -85,20 +85,21 @@ app.post('/talleres/:id/inscripcion', (req, res) => {
   } else if (estaInscrito(id, datos.email, inscripciones)) {
     errores.email = 'Ya estás inscrito en este taller.';
   }
-});
 
-//Esto es para que cuando falles en algo en el formulario te devuelva a la misma pagina con los datos que pusiste correctos ya metidos y los incorrectos para que los pomgas otra vez.
+  // Si hay errores, se vuelve a mostrar el formulario conservando los campos correctos.
   if (Object.keys(errores).length > 0) {
-    return res.render('inscripcion', { taller: taller, datos: datos, errores: errores });
+    return res.status(422).render('inscripcion', { taller: taller, datos: datos, errores: errores });
   }
 
   inscripciones.push({ id: siguienteId(inscripciones), tallerId: id, nombre: datos.nombre, email: datos.email });
-  res.render('inscripcion_exitosa', { taller: taller, datos: datos });
 
-  res.redirect('/talleres/' + id + '/inscripcion_exitosa');
+  // PRG: tras el POST se redirige para que un refresco no reenvíe el formulario.
+  res.redirect('/talleres/' + id);
+});
 
-  //Ficha del taller con el listado de los inscritos.
-app.get('/talleres/:id/inscripcion_exitosa', (req, res) => {
+//Ficha del taller con el listado de los inscritos.
+// Ficha del taller con su estado de plazas.
+app.get('/talleres/:id', (req, res) => {
   const id = Number(req.params.id);
   const taller = talleres.find(t => t.id === id);
 
@@ -109,15 +110,15 @@ app.get('/talleres/:id/inscripcion_exitosa', (req, res) => {
   const restantes = obtenerPlazasRestantes(taller, inscripciones);
 
   let estado;
-  if (restantes > 0) {
-    estado = 'Aún hay plazas disponibles.';
+  if (restantes === 0) {
+    estado = 'Completo';
   } else if (restantes === 1) {
-    estado = 'Solo queda una plaza disponible.';
+    estado = 'Última plaza disponible';
   } else {
-    estado = 'No hay plazas disponibles.';
+    estado = restantes + ' plazas disponibles';
   }
 
-  res.render('inscripcion_exitosa', { taller: taller, restantes: restantes, estado: estado });
+  res.render('ficha', { taller: taller, restantes: restantes, estado: estado });
 });
 
 app.listen(PUERTO, () => {
