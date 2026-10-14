@@ -55,9 +55,32 @@ app.get('/talleres', (req, res) => {
   res.render('talleres', { talleres: lista, filtros: { categoria, nivel, disponibles } });
 });
 
+//Formulario de inscripción a un taller.// Formulario de inscripción a un taller.
 app.get('/talleres/:id/inscripcion', (req, res) => {
   const id = Number(req.params.id);
-  const taller = talleres.find(t => y.id ===id);
+  const taller = talleres.find(t => t.id === id);
 
-)
-}
+  if (!taller) {
+    return res.status(404).send('Taller no encontrado');
+  }
+
+  res.render('inscripcion', { taller: taller, datos: { nombre: '', email: '' }, errores: {} });
+});
+
+//Dar de alta a un usuario en un taller y mostrarle el mensaje si ya esta inscrito o si no hay plazas disponibles.
+app.post('/talleres/:id/inscripcion', (req, res) => {
+  const id = Number(req.params.id);
+  const taller = talleres.find(t => t.id === id);
+
+  if (!taller) {
+    return res.status(404).send('Taller no encontrado');
+  }
+  const resultadoValidacion = validarInscripcion(req.body);
+  const errores = resultadoValidacion.errores;
+  const datos = resultadoValidacion.datos;
+
+  if(obtenerPlazasRestantes(taller, inscripciones) <= 0) {
+    errores.plazas = 'No hay plazas disponibles para este taller.';
+  }else if(estaInscrito(taller, datos.email, inscripciones)) {
+    errores.email = 'Ya estás inscrito en este taller.';
+  }
