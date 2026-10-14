@@ -54,3 +54,10 @@ app.get('/talleres', (req, res) => {
  
   res.render('talleres', { talleres: lista, filtros: { categoria, nivel, disponibles } });
 });
+
+app.get('/talleres/:id/inscripcion', (req, res) => {
+  const id = Number(req.params.id);
+  const taller = talleres.find(t => y.id ===id);
+
+)
+}
