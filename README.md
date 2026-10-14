@@ -1,5 +1,6 @@
 # inscripcion-talleres---PracticaServidor
 
+enlace de Claude IA: https://claude.ai/share/0d390d19-380b-4099-afdb-267fadf06129
 Lo primero que he realizado ha sido crear el repositorio, y crear la estructura, usando "npm init -y" y "npm install express ejs".
 
 Empiezo por app.js:
