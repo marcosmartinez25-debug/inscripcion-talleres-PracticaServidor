@@ -19,8 +19,8 @@ function validarInscripcion(datos) {
     // Si no llega un texto lo dejamos vacío
     let nombre = '';
     let email = '';
-    if (typeof datos.nombre === 'string') nombre = datos.nombre.trim();
-    if (typeof datos.email === 'string') email = datos.email.trim();
+   if (datos && typeof datos.nombre === 'string') nombre = datos.nombre.trim();
+    if (datos && typeof datos.email === 'string') email = datos.email.trim();
 
     if (nombre === '') {
         errores.nombre = 'El nombre es obligatorio';
