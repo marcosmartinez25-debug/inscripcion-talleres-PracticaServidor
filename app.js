@@ -86,3 +86,40 @@ app.post('/talleres/:id/inscripcion', (req, res) => {
     errores.email = 'Ya estás inscrito en este taller.';
   }
 });
+
+//Esto es para que cuando falles en algo en el formulario te devuelva a la misma pagina con los datos que pusiste correctos ya metidos y los incorrectos para que los pomgas otra vez.
+  if (Object.keys(errores).length > 0) {
+    return res.render('inscripcion', { taller: taller, datos: datos, errores: errores });
+  }
+
+  inscripciones.push({ id: siguienteId(inscripciones), tallerId: id, nombre: datos.nombre, email: datos.email });
+  res.render('inscripcion_exitosa', { taller: taller, datos: datos });
+
+  res.redirect('/talleres/' + id + '/inscripcion_exitosa');
+
+  //Ficha del taller con el listado de los inscritos.
+app.get('/talleres/:id/inscripcion_exitosa', (req, res) => {
+  const id = Number(req.params.id);
+  const taller = talleres.find(t => t.id === id);
+
+  if (!taller) {
+    return res.status(404).send('Taller no encontrado');
+  }
+
+  const restantes = obtenerPlazasRestantes(taller, inscripciones);
+
+  let estado;
+  if (restantes > 0) {
+    estado = 'Aún hay plazas disponibles.';
+  } else if (restantes === 1) {
+    estado = 'Solo queda una plaza disponible.';
+  } else {
+    estado = 'No hay plazas disponibles.';
+  }
+
+  res.render('inscripcion_exitosa', { taller: taller, restantes: restantes, estado: estado });
+});
+
+app.listen(PUERTO, () => {
+  console.log(`Servidor escuchando en http://localhost:${PUERTO}`);
+});
