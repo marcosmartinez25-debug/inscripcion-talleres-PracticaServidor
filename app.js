@@ -1,4 +1,4 @@
-/ Carga express con el modulo path para montar las rutas sin tener que saber
+// Carga express con el modulo path para montar las rutas sin tener que saber
 // si estas en Windows o en Linux.
 const express = require('express');
 const path = require('path');
