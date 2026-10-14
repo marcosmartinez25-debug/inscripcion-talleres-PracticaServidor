@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= taller.titulo %></title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="cabecera">
+    <p class="migas"><a href="/talleres">&larr; Volver al listado</a></p>
+    <h1><%= taller.titulo %></h1>
+  </header>
+
+  <main>
+    <% if (recienInscrito) { %>
+      <p class="exito">Inscripción realizada correctamente.</p>
+    <% } %>
+
+    <article class="ficha">
+      <p class="etiquetas">
+        <span class="etiqueta"><%= taller.categoria %></span>
+        <span class="etiqueta"><%= taller.nivel %></span>
+      </p>
+
+      <p class="estado <%= restantes <= 0 ? 'estado-completo' : (restantes === 1 ? 'estado-ultima' : 'estado-libre') %>">
+        <%= estado %>
+      </p>
+
+      <dl class="datos">
+        <dt>Plazas totales</dt>
+        <dd><%= taller.plazas %></dd>
+        <dt>Inscripciones</dt>
+        <dd><%= inscritos %></dd>
+        <dt>Plazas restantes</dt>
+        <dd><%= restantes %></dd>
+      </dl>
+
+      <% if (restantes > 0) { %>
+        <p><a class="boton" href="/talleres/<%= taller.id %>/inscripcion">Inscribirse en este taller</a></p>
+      <% } else { %>
+        <p class="aviso">Este taller ya no admite más inscripciones.</p>
+      <% } %>
+    </article>
+  </main>
+</body>
+</html>
