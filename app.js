@@ -9,7 +9,7 @@ const PUERTO = 3000; //El puerto en el que se va a levantar el servidor.
 // esto es para poder usar EJS como motor de plantillas y poder renderizar las vistas.
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
- 
+
 // este es el Middleware  para poder recibir los datos del formulario.
 app.use(express.urlencoded({ extended: false }));
 
@@ -23,7 +23,7 @@ const talleres = [
 app.get('/', (req, res) => {
   res.redirect('/talleres');
 });
- 
+
 // Listado con todos los filtros y las plazas restantes de cada taller.
 app.get('/talleres', (req, res) => {
 
@@ -35,12 +35,12 @@ app.get('/talleres', (req, res) => {
     plazas: t.plazas,
     plazasRestantes: obtenerPlazasRestantes(t, inscripciones)
   }));
- 
+
   // al venir de una URL los parametros lo tratamos como si no fueran fiables.
   const categoria = typeof req.query.categoria === 'string' ? req.query.categoria.trim().toLowerCase() : '';
   const nivel = typeof req.query.nivel === 'string' ? req.query.nivel.trim().toLowerCase() : '';
   const disponibles = typeof req.query.disponibles === 'string' ? req.query.disponibles.trim().toLowerCase() : '';
- 
+
   // filtramos la lista de talleres según los parametros recibidos.
   if (categoria !== '') {
     lista = lista.filter(t => t.categoria === categoria);
@@ -51,7 +51,7 @@ app.get('/talleres', (req, res) => {
   if (disponibles === 'true') {
     lista = lista.filter(t => t.plazasRestantes > 0);
   }
- 
+
   res.render('talleres', { talleres: lista, filtros: { categoria, nivel, disponibles } });
 });
 
@@ -75,12 +75,14 @@ app.post('/talleres/:id/inscripcion', (req, res) => {
   if (!taller) {
     return res.status(404).send('Taller no encontrado');
   }
+
   const resultadoValidacion = validarInscripcion(req.body);
   const errores = resultadoValidacion.errores;
   const datos = resultadoValidacion.datos;
 
-  if(obtenerPlazasRestantes(taller, inscripciones) <= 0) {
+  if (obtenerPlazasRestantes(taller, inscripciones) <= 0) {
     errores.plazas = 'No hay plazas disponibles para este taller.';
-  }else if(estaInscrito(taller, datos.email, inscripciones)) {
+  } else if (estaInscrito(id, datos.email, inscripciones)) {
     errores.email = 'Ya estás inscrito en este taller.';
   }
+});
