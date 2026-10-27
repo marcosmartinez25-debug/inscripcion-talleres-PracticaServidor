@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Talleres de las jornadas tecnológicas</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="cabecera">
+    <h1>Jornadas tecnológicas</h1>
+    <p>Consulta los talleres disponibles y reserva tu plaza.</p>
+  </header>
+
+  <main>
+    <form class="filtros" method="GET" action="/talleres">
+      <div class="campo">
+        <label for="categoria">Categoría</label>
+        <select name="categoria" id="categoria">
+          <option value="">Todas</option>
+          <% categorias.forEach(function (c) { %>
+            <option value="<%= c %>" <%= filtros.categoria === c ? 'selected' : '' %>><%= c %></option>
+          <% }); %>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="nivel">Nivel</label>
+        <select name="nivel" id="nivel">
+          <option value="">Todos</option>
+          <% niveles.forEach(function (n) { %>
+            <option value="<%= n %>" <%= filtros.nivel === n ? 'selected' : '' %>><%= n %></option>
+          <% }); %>
+        </select>
+      </div>
+
+      <div class="campo campo-check">
+        <input type="checkbox" name="disponibles" id="disponibles" value="true"
+               <%= filtros.disponibles === 'true' ? 'checked' : '' %>>
+        <label for="disponibles">Solo con plazas libres</label>
+      </div>
+
+      <div class="campo campo-botones">
+        <button type="submit">Filtrar</button>
+        <a class="enlace-limpiar" href="/talleres">Quitar filtros</a>
+      </div>
+    </form>
+
+    <p class="resumen">Mostrando <%= talleres.length %> de <%= total %> talleres.</p>
+
+    <% if (talleres.length === 0) { %>
+      <p class="aviso">Ningún taller coincide con los filtros seleccionados.</p>
+    <% } else { %>
+      <ul class="lista-talleres">
+        <% talleres.forEach(function (taller) { %>
+          <li class="taller <%= taller.plazasRestantes <= 0 ? 'completo' : '' %>">
+            <h2><a href="/talleres/<%= taller.id %>"><%= taller.titulo %></a></h2>
+            <p class="etiquetas">
+              <span class="etiqueta"><%= taller.categoria %></span>
+              <span class="etiqueta"><%= taller.nivel %></span>
+            </p>
+            <p class="plazas"><%= describirEstado(taller.plazasRestantes) %>
+              <span class="detalle">(<%= taller.plazas %> en total)</span>
+            </p>
+            <p class="acciones">
+              <a href="/talleres/<%= taller.id %>">Ver ficha</a>
+              <% if (taller.plazasRestantes > 0) { %>
+                <a class="boton" href="/talleres/<%= taller.id %>/inscripcion">Inscribirse</a>
+              <% } %>
+            </p>
+          </li>
+        <% }); %>
+      </ul>
+    <% } %>
+  </main>
+</body>
+</html>

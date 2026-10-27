@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscripción · <%= taller.titulo %></title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="cabecera">
+    <p class="migas"><a href="/talleres/<%= taller.id %>">&larr; Volver a la ficha</a></p>
+    <h1>Inscripción</h1>
+    <p><%= taller.titulo %> — <%= estado %></p>
+  </header>
+
+  <main>
+    <% if (errores.plazas) { %>
+      <p class="aviso"><%= errores.plazas %></p>
+    <% } %>
+
+    <form class="formulario" method="POST" action="/talleres/<%= taller.id %>/inscripcion">
+      <div class="campo">
+        <label for="nombre">Nombre</label>
+        <input type="text" name="nombre" id="nombre" value="<%= datos.nombre %>"
+               class="<%= errores.nombre ? 'con-error' : '' %>">
+        <% if (errores.nombre) { %>
+          <span class="error"><%= errores.nombre %></span>
+        <% } %>
+      </div>
+
+      <div class="campo">
+        <label for="email">Correo electrónico</label>
+        <input type="text" name="email" id="email" value="<%= datos.email %>"
+               class="<%= errores.email ? 'con-error' : '' %>">
+        <% if (errores.email) { %>
+          <span class="error"><%= errores.email %></span>
+        <% } %>
+      </div>
+
+      <div class="campo campo-botones">
+        <button type="submit" <%= restantes <= 0 ? 'disabled' : '' %>>Confirmar inscripción</button>
+        <a class="enlace-limpiar" href="/talleres/<%= taller.id %>">Cancelar</a>
+      </div>
+    </form>
+  </main>
+</body>
+</html>
