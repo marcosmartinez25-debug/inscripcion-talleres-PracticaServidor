@@ -1,0 +1,13 @@
+# Las dependencias se reinstalan con npm install, no se suben al repositorio.
+node_modules/
+
+# Variables de entorno y registros locales.
+.env
+*.log
+npm-debug.log*
+
+# Ficheros del editor y del sistema.
+.vscode/
+*.code-workspace
+.DS_Store
+Thumbs.db

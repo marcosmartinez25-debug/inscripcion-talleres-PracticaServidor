@@ -16,6 +16,27 @@ function buscarTaller(id, talleres) {
     return talleres.find(t => t.id === id);
 }
 
+// Resuelve de una vez el id que llega por la URL. Devuelve en qué caso estamos
+// para que la ruta sepa si tiene que contestar 400, 404 o seguir adelante.
+// No recibe req ni res: solo el valor del id y la lista de talleres.
+function resolverTaller(valorId, talleres) {
+    const id = normalizarId(valorId);
+
+    // El id no es un número entero positivo: /talleres/abc, /talleres/-5, /talleres/3.7
+    if (id === null) {
+        return { estado: 'invalido', taller: undefined };
+    }
+
+    const taller = buscarTaller(id, talleres);
+
+    // El id tiene buena forma pero no hay ningún taller con ese número.
+    if (!taller) {
+        return { estado: 'inexistente', taller: undefined };
+    }
+
+    return { estado: 'ok', taller: taller };
+}
+
 function limpiarParametro(valor) {
     if (typeof valor !== 'string') return '';
     return valor.trim().toLowerCase();
@@ -65,6 +86,7 @@ function valoresUnicos(talleres, campo) {
 module.exports = {
     normalizarId,
     buscarTaller,
+    resolverTaller,
     limpiarParametro,
     listarTalleres,
     filtrarTalleres,

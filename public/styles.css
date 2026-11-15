@@ -213,3 +213,24 @@ button[disabled] {
   padding: 8px;
   margin-bottom: 10px;
 }
+
+/* Pie de página (parcial que se repite en todas las vistas) */
+
+.pie {
+  border-top: 1px solid #ccc;
+  margin-top: 30px;
+  padding-top: 10px;
+}
+
+.pie p {
+  margin: 0;
+  color: #555;
+  font-size: 13px;
+}
+
+code {
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 1px 4px;
+  font-family: "Courier New", monospace;
+}

@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Talleres de las jornadas tecnológicas</title>
-  <link rel="stylesheet" href="/styles.css">
-</head>
-<body>
+<%- include('partials/cabecera', { tituloPagina: 'Talleres de las jornadas tecnológicas' }) %>
+
   <header class="cabecera">
     <h1>Jornadas tecnológicas</h1>
     <p>Consulta los talleres disponibles y reserva tu plaza.</p>
@@ -73,5 +66,5 @@
       </ul>
     <% } %>
   </main>
-</body>
-</html>
+
+<%- include('partials/pie') %>

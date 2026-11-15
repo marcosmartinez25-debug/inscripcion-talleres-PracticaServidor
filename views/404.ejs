@@ -1,0 +1,19 @@
+<%- include('partials/cabecera', { tituloPagina: 'Página no encontrada' }) %>
+
+  <header class="cabecera">
+    <h1>404 &middot; esta página no existe</h1>
+    <p>La dirección que has pedido no está en la aplicación.</p>
+  </header>
+
+  <main>
+    <article class="ficha">
+      <p class="aviso">No hay nada en <code><%= ruta %></code>.</p>
+
+      <p>Puede que el enlace esté mal escrito o que la página ya no exista. Desde
+        aquí puedes volver al listado de talleres y seguir desde ahí.</p>
+
+      <p><a class="boton" href="/talleres">Ir al listado de talleres</a></p>
+    </article>
+  </main>
+
+<%- include('partials/pie') %>

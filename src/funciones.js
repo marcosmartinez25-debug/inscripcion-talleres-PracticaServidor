@@ -8,8 +8,9 @@ function obtenerPlazasRestantes(taller, inscripciones) {
 
 // Comprueba si un correo ya está inscrito en ese taller
 function estaInscrito(tallerId, email, inscripciones) {
-    const correo = String(email).trim().toLowerCase();
-    return inscripciones.some(i => i.tallerId === tallerId && i.email.toLowerCase() === correo);
+    const correo = String(email ?? '').trim().toLowerCase();
+    if (correo === '') return false;
+    return inscripciones.some(i => String(i.email ?? '').toLowerCase() === correo && i.tallerId === tallerId);
 }
 
 // Valida los datos del formulario (vienen del navegador, no son fiables)
@@ -19,7 +20,7 @@ function validarInscripcion(datos) {
     // Si no llega un texto lo dejamos vacío
     let nombre = '';
     let email = '';
-   if (datos && typeof datos.nombre === 'string') nombre = datos.nombre.trim();
+    if (datos && typeof datos.nombre === 'string') nombre = datos.nombre.trim();
     if (datos && typeof datos.email === 'string') email = datos.email.trim();
 
     if (nombre === '') {

@@ -1,17 +1,18 @@
 {
-  "name": "inscripcion-talleres-practicaservidor-1",
+  "name": "inscripcion-talleres-practicaservidor",
   "version": "1.0.0",
-  "description": "",
+  "description": "Sistema de inscripcion a talleres de unas jornadas tecnologicas (Express + EJS)",
   "main": "app.js",
   "scripts": {
-    "dev": "node app.js"
+    "start": "node app.js",
+    "dev": "node --watch app.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/marcosmartinez25-debug/inscripcion-talleres-PracticaServidor.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Marcos Martinez Cossio",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/marcosmartinez25-debug/inscripcion-talleres-PracticaServidor/issues"
